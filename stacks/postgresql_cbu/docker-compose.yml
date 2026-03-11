@@ -1,0 +1,30 @@
+services:
+  postgresql_cbu:
+    image: postgis/postgis
+    container_name: postgresql_cbu
+    environment:
+      POSTGRES_DB: postgresql_cbu
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      # - postgresql_cbu_data:/var/lib/postgresql
+      - /opt/appdata/postgresql_cbu:/var/lib/postgresql/data
+    networks:
+      - iiot_internal
+    ports:
+      - 5433:5432
+    restart: always
+    labels:
+      - homepage.group=BIM&GIS
+      - homepage.name=PostGIS CBU
+      - homepage.icon=postgres.png
+      - homepage.description=DB Geospaziale (PostGIS)
+      # - homepage.href=http://192.168.0.6:5433
+      # - homepage.widget.type=postgres # statistiche DB
+      # - homepage.widget.url=postgres://postgres:${POSTGRES_PASSWORD}@192.168.0.6:5433/postgresql_cbu
+volumes:
+  postgresql_cbu_data: null
+
+networks:
+  iiot_internal:
+    external: true

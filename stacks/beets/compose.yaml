@@ -1,0 +1,28 @@
+services:
+  beets:
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /opt/appdata/beets/config:/config
+      - /opt/appdata/beets/music:/music
+      - /opt/appdata/beets/ingest:/downloads
+    networks:
+      - iiot_internal
+    ports:
+      - 8337:8337
+    labels:
+      # - autoheal=true
+      - homepage.group=Multimedia
+      - homepage.name=Beet
+      - homepage.icon=beets
+      - homepage.description=Music Data Scraping
+      - homepage.href=http://192.168.0.6:8337
+    restart: unless-stopped
+
+networks:
+  iiot_internal:
+    external: true

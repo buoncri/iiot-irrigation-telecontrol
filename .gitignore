@@ -1,0 +1,70 @@
+# ==============================
+# Telecontrollo CBU gitignore
+# Tiene: compose files and config
+# Dimentica: runtime/stati dati
+# ==============================
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Env / secrets (generic)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.kdbx
+secrets*
+
+# Runtime and persisted service data
+appdata/
+tmp/
+containerd/
+
+# Tool state
+portainer/data/
+dockge/data/
+
+# Database and engine artifacts (any depth)
+**/postgres/
+**/postgres-data/
+**/mysql/
+**/db/
+**/data/db/
+**/pg_wal/
+**/pg_stat_tmp/
+**/ibdata1
+**/ib_logfile*
+**/ibtmp1
+**/aria_log*
+**/multi-master.info
+**/postmaster.pid
+
+# Service-generated volumes/caches (common names)
+**/uploads/
+**/logs/
+**/cache/
+**/tmp/
+**/rrd/
+**/vendor/
+**/node_modules/
+**/__pycache__/
+**/*.pyc
+
+# Speckle-specific stateful dirs
+stacks/speckle/minio-data/
+stacks/speckle/postgres-data/
+stacks/speckle/redis-data/
+
+# Generic stack-local stateful dirs
+stacks/**/postgres-data/
+stacks/**/redis-data/
+stacks/**/minio-data/
+stacks/**/gw-data/
+
+# LibreNMS temporary copy
+tmp/librenms/

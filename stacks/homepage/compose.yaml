@@ -1,0 +1,25 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: "*"
+      PGID: 1000
+    networks:
+      - iiot_internal
+    ports:
+      - 3000:3000
+    volumes:
+      - /opt/appdata/homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - homepage.name=Homepage Docker App
+      - homepage.group=Monitors
+      - homepage.icon=homepage.png
+      - homepage.description=Dynamic Home Page
+      - homepage.href=http://192.168.0.6:3000
+    restart: unless-stopped
+
+networks:
+  iiot_internal:
+    external: true

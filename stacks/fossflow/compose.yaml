@@ -1,0 +1,26 @@
+services:
+  fossflow:
+    image: stnsmith/fossflow:latest
+    container_name: fossflow
+    ports:
+      - 8060:80
+    volumes:
+      - /opt/appdata/fossflow/diagrams:/data/diagrams
+    restart: unless-stopped
+    environment:
+      - ENABLE_SERVER_STORAGE=true
+      - STORAGE_PATH=/data/diagrams
+    labels:
+      - homepage.name=Fossflow
+      - homepage.icon=flowise
+      - homepage.group=Applications
+      - homepage.description=Diagrammi 3D Isometrici
+      - homepage.href=http://192.168.0.6:8060
+      # - homepage.widget.type=iframe
+      # - homepage.widget.url=http://192.168.0.6:8060
+      # - homepage.widget.height=600
+    networks:
+      - iiot_internal
+networks:
+  iiot_internal:
+    external: true

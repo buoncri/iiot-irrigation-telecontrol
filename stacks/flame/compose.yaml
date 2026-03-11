@@ -1,0 +1,23 @@
+services:
+  flame:
+    container_name: flame
+    ports:
+      - 5005:5005
+    volumes:
+      - /opt/appdata/flame/data:/app/data
+    environment:
+      - PASSWORD=${FLAME_PASSWORD}
+    image: pawelmalak/flame:latest
+    networks:
+      - iiot_internal
+    restart: unless-stopped
+    labels:
+      - homepage.name=Flame
+      - homepage.icon=flame
+      - homepage.group=Monitors
+      - homepage.description=Home page Statica
+      - homepage.href=http://192.168.0.6:5005
+
+networks:
+  iiot_internal:
+    external: true
