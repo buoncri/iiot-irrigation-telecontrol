@@ -248,5 +248,4 @@ Per consolidare il primo commit e' consigliato:
 4. definire una procedura standard di backup/restore per ogni servizio stato-centrico
 
 ## Disclaimer
-
-Questo repository contiene anche directory dati runtime. Prima di pubblicare o condividere il progetto, verificare con attenzione la presenza di file sensibili (password, token, dump DB, certificati, chiavi).
+Lo usate a vostro uso e consumo, senza garanzia alcuna di assistenza o funzionamento :-D
