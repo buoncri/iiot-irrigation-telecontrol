@@ -18,6 +18,6 @@ services:
       - "homepage.description=Docker Container Management"
       # - "homepage.widget.type=open"
       # - "homepage.widget.url=https://192.168.0.6:9443"
-      # - "homepage.widget.fields={\"container\":\"portainer\",\"env\":\"my-docker\",\"endpoint\":3,\"key\":\"ptr_bAkYfGBlZJGcg2yzznsDPsQ45+EMt8BlfUmkIfq4zcI=\"}"
+      # - "homepage.widget.fields={\"container\":\"portainer\",\"env\":\"my-docker\",\"endpoint\":3,\"key\":\"${PORTAINER_API_KEY}\"}"
 
 
