@@ -1,0 +1,41 @@
+services:
+  # Ignition Gateway
+  gateway:
+    image: inductiveautomation/ignition:latest
+    ports:
+      - 8088:8088
+      - 8043:8043
+      - 8043:8043/udp
+      - 4446:4446/udp
+    volumes:
+    # TODO Spostare in /opt
+      - gw-data:/usr/local/bin/ignition/data
+    networks:
+      - iiot_internal
+    environment:
+      - ACCEPT_IGNITION_EULA=Y
+      - GATEWAY_ADMIN_USERNAME=${GATEWAY_ADMIN_USERNAME}
+      - GATEWAY_ADMIN_PASSWORD=${GATEWAY_ADMIN_PASSWORD}
+      - IGNITION_EDITION=${gwedition:-maker}
+      - GATEWAY_NAME=${EDGE_ID:-default-gateway}
+      - GATEWAY_ID=${EDGE_ID:-default-gateway}
+      - TZ=${TZ:-UTC}
+      # - JAVA_OPTS=-Xmx 2048m -Xms 1024m -Dignition.allowunsignedmodules=true
+    command: >
+      -n docker-test
+
+      -m 24576 -- wrapper.java.initmemory=2048 -Dignition.allowunsignedmodules=true
+    labels:
+      - homepage.group=BIM&GIS
+      - homepage.name=Ignition Gateway
+      - homepage.icon=application-gateway-container.png
+      - homepage.href=http://${SYS_IP}:8088
+      - homepage.description=Ignition SCADA
+      # - homepage.widget.type=ignition
+      # - homepage.widget.url=http://${SYS_IP}:8088
+volumes:
+  gw-data: null
+  
+networks:
+  iiot_internal:
+    external: true

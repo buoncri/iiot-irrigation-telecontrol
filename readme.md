@@ -35,19 +35,21 @@ Stack presenti in `stacks/`:
 ## Struttura Repository
 
 ```text
-/opt
-|- readme.md
-|- dockge/
-|- stacks/
-|  |- homepage/
-|  |- openproject/
-|  |- ...
-|- appdata/
-|  |- homepage/
-|  |- openproject/
-|  |- ...
-|- portainer/
-`- ...
+
+/opt/iiot-irrigation-telecontrol/
+├── bootstrap.sh        # Lo script che crea il primo boot
+├── README.md           # La pagina iniziale per chi scarica il tuo progetto
+├── docs/               
+│   └── images/         # 📸 Screenshot, icone locali o diagrammi .png
+├── scripts/            # 🛠️ Script bash (es. stackctl.sh)
+├── stacks/             # 🐳 La cartella dei container, vista e gestita da Dockge
+│   ├── portainer/ 
+│   ├── beets/
+│   ├── nodered/
+│   ├── excalidash/
+│   └── ...
+└── dockge/             # ☸️ Il compose che fa girare l' orchestrator stesso
+
 ```
 
 ## Prerequisiti
@@ -248,4 +250,4 @@ Per consolidare il primo commit e' consigliato:
 4. definire una procedura standard di backup/restore per ogni servizio stato-centrico
 
 ## Disclaimer
-Lo usate a vostro uso e consumo, senza garanzia alcuna di assistenza o funzionamento :-D
+Lo usate a vostro uso e consumo, senza garanzia alcuna di assistenza o funzionamento, così come è 
