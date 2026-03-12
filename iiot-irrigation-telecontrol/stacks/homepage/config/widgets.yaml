@@ -1,0 +1,13 @@
+---
+# Widget di ricerca e risorse di sistema
+- search:
+    provider: google
+    target: _blank
+    focus: true
+    showSearchIcon: true
+    placeholder: "Cerca sul web..."
+
+- resources:
+    cpu: true
+    memory: true
+    disk: /

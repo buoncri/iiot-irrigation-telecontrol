@@ -1,0 +1,38 @@
+name: Test Docker Stacks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-active-stacks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          # Creazione rete esterna richiesta da molti container e file env
+          docker network create iiot_internal || true
+          touch .env
+          
+          # Diamo i permessi di esecuzione allo script
+          chmod +x ./iiot-irrigation-telecontrol/scripts/stackctl.sh
+
+      - name: Avvia gli stack attivi
+        run: |
+          ./iiot-irrigation-telecontrol/scripts/stackctl.sh up-active
+
+      - name: Verifica lo stato dei container
+        run: |
+          ./iiot-irrigation-telecontrol/scripts/stackctl.sh status-active
+
+      - name: Ferma e pulisci (Opzionale nell'ambiente CI, ma buona pratica)
+        run: |
+          ./iiot-irrigation-telecontrol/scripts/stackctl.sh down-active

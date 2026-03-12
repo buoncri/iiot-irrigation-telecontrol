@@ -1,0 +1,3 @@
+---
+# I servizi sono ora configurati dinamicamente tramite le etichette (labels) di Docker nei singoli file compose.
+# Non aggiungere servizi statici qui a meno che non siano esterni a Docker.

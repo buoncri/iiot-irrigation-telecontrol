@@ -1,0 +1,162 @@
+networks:
+  frontend: null
+  backend: null
+volumes:
+  {}
+  # pgdata: null
+  # opdata: null
+x-op-restart-policy: &a2
+  restart: unless-stopped
+x-op-image: &a1
+  image: openproject/openproject:${TAG:-17-slim}
+x-op-app: &a3
+  <<:
+    - *a1
+    - *a2
+  environment:
+    OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS:-true}
+    OPENPROJECT_HOST__NAME: ${OPENPROJECT_HOST__NAME:-localhost:8080}
+    OPENPROJECT_EDITION: bim
+    OPENPROJECT_ADDITIONAL__HOST__NAMES: ${OPENPROJECT_ADDITIONAL__HOST__NAMES:-web}
+    OPENPROJECT_HSTS: ${OPENPROJECT_HSTS:-true}
+    OPENPROJECT_RAILS__CACHE__STORE: memcache
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: ${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: ${COLLABORATIVE_SERVER_URL:-wss://${OPENPROJECT_HOST__NAME}/hocuspocus}
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: ${COLLABORATIVE_SERVER_SECRET}
+    DATABASE_URL: ${DATABASE_URL}
+    RAILS_MIN_THREADS: ${RAILS_MIN_THREADS:-4}
+    RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-16}
+    IMAP_ENABLED: ${IMAP_ENABLED:-false}
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  volumes:
+    - ${APPDATA_DIR:-/opt/appdata}/openproject/assets:/var/openproject/assets
+services:
+  db:
+    image: postgres:${POSTGRES_VERSION:-13}
+    <<: *a2
+    stop_grace_period: 3s
+    volumes:
+      # - ${PGDATA:-pgdata}:/var/lib/postgresql/data
+      - ${APPDATA_DIR:-/opt/appdata}/openproject/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: openproject
+    networks:
+      - backend
+    labels:
+      - homepage.group=BIM&GIS
+      - homepage.name=OpenProject DB
+      - homepage.icon=postgresql.png
+      - homepage.description=PostgreSQL Database
+      # - homepage.href=http://192.168.0.6:5432
+      # - homepage.show=hidden # Nascosto dalla principale
+  cache:
+    image: memcached
+    <<: *a2
+    networks:
+      - backend
+    # labels:
+    #   - homepage.group=BIM&GIS
+    #   - homepage.name=OpenProject Cache
+    #   - homepage.icon=memcached.png
+    #   - homepage.description=Memcached
+    #   - homepage.href=http://192.168.0.6:11211
+    #   - homepage.show=hidden
+  proxy:
+    build:
+      context: ./proxy
+      args:
+        APP_HOST: web
+    image: openproject/proxy
+    <<: *a2
+    ports:
+      # - ${PORT:-8080}:80
+      # - 0.0.0.0:8081:80
+      - "8081:80"
+    depends_on:
+      - web
+    networks:
+      - frontend
+    labels:
+      - auto
+      - homepage.group=BIM&GIS
+      - homepage.name=OpenProject Proxy
+      - homepage.icon=nginx
+      - homepage.description=Reverse Proxy
+  web:
+    <<: *a3
+    command: ./docker/prod/web
+    # ports:
+    #   - 8081:8080
+    user: root:root #da togliere
+    hostname: web # ${OPENPROJECT_HOST__NAME:-localhost:8081}
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - db
+      - cache
+      - seeder
+    labels:
+      - autoheal=true
+      - homepage.group=BIM&GIS
+      - homepage.name=OpenProject
+      - homepage.icon=openproject
+      - homepage.description=Project Management BIM
+      - homepage.href=http://192.168.0.6:8081
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8080${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}/health_checks/default
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+  autoheal:
+    image: willfarrell/autoheal:1.2.0
+    container_name: openproject-autoheal
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+      AUTOHEAL_START_PERIOD: 300
+      AUTOHEAL_INTERVAL: 30
+      AUTOHEAL_DEFAULT_STOP_TIMEOUT: 10
+  worker:
+    <<: *a3
+    command: ./docker/prod/worker
+    networks:
+      - backend
+    depends_on:
+      - db
+      - cache
+      - seeder
+  cron:
+    <<: *a3
+    command: ./docker/prod/cron
+    networks:
+      - backend
+    depends_on:
+      - db
+      - cache
+      - seeder
+  seeder:
+    <<: *a3
+    command: ./docker/prod/seeder
+    restart: on-failure
+    networks:
+      - backend
+  hocuspocus:
+    image: openproject/hocuspocus:17.1.2
+    environment:
+      SECRET: ${COLLABORATIVE_SERVER_SECRET}
+      OPENPROJECT_URL: ${OPENPROJECT_URL:-http://web:8080}
+      OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS:-true}
+    networks:
+      - backend
+      - frontend
+    <<: *a2

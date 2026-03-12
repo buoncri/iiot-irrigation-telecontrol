@@ -1,0 +1,17 @@
+services:
+  fossflow:
+    image: stnsmith/fossflow:latest
+    container_name: fossflow
+    ports:
+      - 8060:80
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/fossflow/diagrams:/data/diagrams
+    restart: unless-stopped
+    environment:
+      - ENABLE_SERVER_STORAGE=true
+      - STORAGE_PATH=/data/diagrams
+    networks:
+      - iiot_internal
+networks:
+  iiot_internal:
+    external: true

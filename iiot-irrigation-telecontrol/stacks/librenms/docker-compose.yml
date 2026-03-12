@@ -1,0 +1,103 @@
+name: librenms
+services:
+  db:
+    image: mariadb:10
+    container_name: librenms_db
+    command:
+      - mysqld
+      - --innodb-file-per-table=1
+      - --lower-case-table-names=0
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/db:/var/lib/mysql
+    environment:
+      - TZ=${TZ}
+      - MARIADB_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: always
+  redis:
+    image: redis:7.2-alpine
+    container_name: librenms_redis
+    environment:
+      - TZ=${TZ}
+    restart: always
+  librenms:
+    image: librenms/librenms:latest
+    container_name: librenms
+    hostname: librenms
+    ports:
+      - target: 8000
+        published: 8020
+        protocol: tcp
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/data:/data  
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - DB_HOST=db
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_TIMEOUT=60
+      - REDIS_HOST=redis
+      - CACHE_DRIVER=redis # Aggiunta
+      - SESSION_DRIVER=redis # Aggiuna
+    labels:
+      - homepage.group=Monitors
+      - homepage.name=LibreNMS
+      - homepage.icon=librenms
+      - homepage.href=http://${SYS_IP:-127.0.0.1}:8020
+      - homepage.description=Network Monitoring
+    restart: always
+  dispatcher:
+    image: librenms/librenms:latest
+    container_name: librenms_dispatcher
+    hostname: librenms-dispatcher
+    depends_on:
+      - librenms
+      - redis
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/data:/data
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - DB_HOST=db
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_TIMEOUT=60
+      - DISPATCHER_NODE_ID=dispatcher1
+      - SIDECAR_DISPATCHER=1
+      - REDIS_HOST=redis
+    restart: always
+  scheduler:
+    image: librenms/librenms:latest
+    container_name: librenms_scheduler
+    hostname: librenms-scheduler
+    depends_on:
+      - librenms
+      - redis
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/data:/data
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - DB_HOST=db
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_TIMEOUT=60
+      - SIDECAR_SCHEDULER=1 # Abilita la modalità scheduler
+      - REDIS_HOST=redis
+    restart: always
+
+networks: {}

@@ -1,0 +1,22 @@
+services:
+  beets:
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/beets/config:/config
+      - ${APPDATA_DIR:-/opt/appdata}/beets/music:/music
+      - ${APPDATA_DIR:-/opt/appdata}/beets/ingest:/downloads
+    networks:
+      - iiot_internal
+    ports:
+      - 8337:8337
+      # - autoheal=true
+    restart: unless-stopped
+
+networks:
+  iiot_internal:
+    external: true

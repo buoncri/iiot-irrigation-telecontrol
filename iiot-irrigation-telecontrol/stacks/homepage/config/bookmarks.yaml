@@ -1,0 +1,54 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks
+
+- Software Stack:
+    - Linux:
+        - icon: linux
+          abbr: LX
+          href: https://www.debian.org
+          description: Sistema Operativo
+    - Proxmox:
+        - icon: proxmox
+          abbr: PM
+          href: https://www.proxmox.com
+          description: Virtualizzazione e containerizzazione [Hypervisor]
+    - Docker:
+        - icon: docker
+          abbr: DK
+          href: https://www.docker.com
+          description: Virtualizzazione e containerizzazione [Container]
+
+- C.B.U. Network:
+    - Homepage:
+        - icon: homepage
+          abbr: HP
+          href: http://www.bonificaumbra.it
+
+    - Facebook:
+        - icon: facebook
+          abbr: FB
+          href: https://www.facebook.com/consorziobonificazione.umbra
+
+    - Email:
+        - icon: mail
+          abbr: EM
+          href: mailto:info@bonificaumbra.it
+          description: invia email a @bonificaumbra
+
+- Developer Network:
+    - Github:
+        - icon: github
+          abbr: GH
+          href: https://www.github.com/buoncri
+
+    - Linkedin:
+        - icon: linkedin
+          abbr: LI
+          href: https://www.linkedin.com/in/buoncri
+
+    - Email:
+        - icon: mail
+          abbr: EM
+          href: mailto:buoncri@libero.it
+          description: invia email a @buoncri
