@@ -1,0 +1,5 @@
+---
+# Widget di ricerca
+- search:
+    provider: google
+    target: _blank
