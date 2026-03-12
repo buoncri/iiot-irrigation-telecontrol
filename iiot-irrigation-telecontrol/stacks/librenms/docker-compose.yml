@@ -53,7 +53,7 @@ services:
       - homepage.group=Monitors
       - homepage.name=LibreNMS
       - homepage.icon=librenms
-      - homepage.href=http://${SYS_IP}:8020
+      - homepage.href=http://${SYS_IP:-127.0.0.1}:8020
       - homepage.description=Network Monitoring
     restart: always
   dispatcher:
