@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="iiot-irrigation-telecontrol/assets/images/logo_progetto.jpg" alt="IIoT Irrigation Telecontrol Logo" width="300" />
+  <img src="iiot-irrigation-telecontrol/assets/images/logo_progetto.jpg" alt="IIoT Irrigation Telecontrol Logo" width="75%" />
 </p>
 
 # IIoT Irrigation Telecontrol
