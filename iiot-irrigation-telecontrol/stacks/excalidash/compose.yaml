@@ -6,8 +6,8 @@ services:
     ports:
       - 8040:8000
     volumes:
-      - /opt/appdata/excalidash/data:/app/prisma
-      - /opt/appdata/excalidash/uploads:/app/uploads
+      - ${APPDATA_DIR:-/opt/appdata}/excalidash/data:/app/prisma
+      - ${APPDATA_DIR:-/opt/appdata}/excalidash/uploads:/app/uploads
     environment:
       - DATABASE_URL=file:/app/prisma/dev.db
       - PORT=8000
@@ -76,14 +76,6 @@ services:
       - excalidash-network
     labels:
       - autoheal=true
-      - homepage.name=Excalidash
-      - homepage.icon=dashboard-icons
-      - homepage.group=Applications
-      - homepage.description=Diagrammi collaborativi
-      - homepage.href=http://${SYS_IP}:6767
-      # - homepage.widget.type=iframe
-      # - homepage.widget.url=http://${SYS_IP}:6767
-      # - homepage.widget.height=600
 networks:
   excalidash-network:
     driver: bridge

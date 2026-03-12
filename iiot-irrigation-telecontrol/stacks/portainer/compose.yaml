@@ -9,7 +9,7 @@ services:
       - ${PORTAINER_HTTP_PORT:-9000}:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/appdata/portainer/data:/data
+      - ${APPDATA_DIR:-/opt/appdata}/portainer/data:/data
     labels:
       - "homepage.group=Managers"
       - "homepage.name=Portainer"

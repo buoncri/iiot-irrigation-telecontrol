@@ -8,8 +8,7 @@ services:
       - 8043:8043/udp
       - 4446:4446/udp
     volumes:
-    # TODO Spostare in /opt
-      - gw-data:/usr/local/bin/ignition/data
+      - ${APPDATA_DIR:-/opt/appdata}/ig_cbu_test/data:/usr/local/bin/ignition/data
     networks:
       - iiot_internal
     environment:
@@ -25,16 +24,6 @@ services:
       -n docker-test
 
       -m 24576 -- wrapper.java.initmemory=2048 -Dignition.allowunsignedmodules=true
-    labels:
-      - homepage.group=BIM&GIS
-      - homepage.name=Ignition Gateway
-      - homepage.icon=application-gateway-container.png
-      - homepage.href=http://${SYS_IP}:8088
-      - homepage.description=Ignition SCADA
-      # - homepage.widget.type=ignition
-      # - homepage.widget.url=http://${SYS_IP}:8088
-volumes:
-  gw-data: null
   
 networks:
   iiot_internal:

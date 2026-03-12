@@ -6,7 +6,7 @@ services:
       - WUD_SERVER_PORT=3010
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/appdata/wud:/store # Cartella per i dati persistenti
+      - ${APPDATA_DIR:-/opt/appdata}/wud:/store # Cartella per i dati persistenti
     ports:
       - 3010:3010 # Cambiata da 3000 a 3010ì
 # networks: {}

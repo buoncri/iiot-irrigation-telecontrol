@@ -12,7 +12,7 @@ fi
 # Percorsi principali
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GLOBAL_ENV="${PROJECT_DIR}/.env.global"
-APPDATA_DIR="/opt/appdata"
+APPDATA_DIR="$PROJECT_DIR/appdata"
 
 echo "🚀 Inizio procedura di bootstrap o riparazione..."
 
@@ -22,7 +22,7 @@ echo "🚀 Inizio procedura di bootstrap o riparazione..."
 if ! command -v docker >/dev/null 2>&1; then
     echo "📦 Installazione di Docker e plugin Compose..."
     sudo apt-get update
-    sudo apt-get install -y ca-certificates curl docker.io docker-compose-plugin
+    sudo apt-get install -y ca-certificates curl docker.io docker-compose
 fi
 
 # 2. Configurazione Utente
@@ -48,10 +48,11 @@ sudo chown -R "$USER:$USER" "$APPDATA_DIR"
 if [ ! -f "$GLOBAL_ENV" ]; then
     echo "⚙️  Creazione del file .env.global di base (attendi...)"
     IP_LOCAL=$(ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v '127.0.0.1' | head -n 1) || "192.168.0.6"
+    DOMAIN_LOCAL="${HOSTNAME:-telecontrollo}.local"
     cat << ENV_EOF > "$GLOBAL_ENV"
 # Configurazione Globale Sistema
 SYS_IP=${IP_LOCAL}
-SYS_DOMAIN=telecontrollo.local
+SYS_DOMAIN=${DOMAIN_LOCAL}
 
 # Percorso Dockge
 DOCKGE_STACKS_DIR=$PROJECT_DIR/stacks

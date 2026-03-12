@@ -30,7 +30,7 @@ x-op-app: &a3
     IMAP_ENABLED: ${IMAP_ENABLED:-false}
     SECRET_KEY_BASE: ${SECRET_KEY_BASE}
   volumes:
-    - ${OPDATA:-opdata}:/var/openproject/assets
+    - ${APPDATA_DIR:-/opt/appdata}/openproject/assets:/var/openproject/assets
 services:
   db:
     image: postgres:${POSTGRES_VERSION:-13}
@@ -38,7 +38,7 @@ services:
     stop_grace_period: 3s
     volumes:
       # - ${PGDATA:-pgdata}:/var/lib/postgresql/data
-      - /opt/appdata/openproject/postgres:/var/lib/postgresql/data
+      - ${APPDATA_DIR:-/opt/appdata}/openproject/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: openproject

@@ -7,20 +7,14 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /opt/appdata/beets/config:/config
-      - /opt/appdata/beets/music:/music
-      - /opt/appdata/beets/ingest:/downloads
+      - ${APPDATA_DIR:-/opt/appdata}/beets/config:/config
+      - ${APPDATA_DIR:-/opt/appdata}/beets/music:/music
+      - ${APPDATA_DIR:-/opt/appdata}/beets/ingest:/downloads
     networks:
       - iiot_internal
     ports:
       - 8337:8337
-    labels:
       # - autoheal=true
-      - homepage.group=Multimedia
-      - homepage.name=Beet
-      - homepage.icon=beets
-      - homepage.description=Music Data Scraping
-      - homepage.href=http://${SYS_IP}:8337
     restart: unless-stopped
 
 networks:

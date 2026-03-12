@@ -9,13 +9,13 @@ services:
       POSTGRES_USER: speckle
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - /opt/appdata/speckle/postgres-data:/var/lib/postgresql/data/
+      - ${APPDATA_DIR:-/opt/appdata}/speckle/postgres-data:/var/lib/postgresql/data/
 
   redis:
     image: 'valkey/valkey:8-alpine'
     restart: always
     volumes:
-      - /opt/appdata/speckle/redis-data:/data
+      - ${APPDATA_DIR:-/opt/appdata}/speckle/redis-data:/data
 
   minio:
     image: 'minio/minio'
@@ -24,7 +24,7 @@ services:
     ports:
       - '${SPECKLE_BIND_IP}:${SPECKLE_MINIO_HOST_PORT}:9000'
     volumes:
-      - /opt/appdata/speckle/minio-data:/data
+      - ${APPDATA_DIR:-/opt/appdata}/speckle/minio-data:/data
 
   speckle-ingress:
     image: speckle/speckle-docker-compose-ingress:latest

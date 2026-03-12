@@ -4,7 +4,7 @@ services:
     ports:
       - 5005:5005
     volumes:
-      - /opt/appdata/flame/data:/app/data
+      - ${APPDATA_DIR:-/opt/appdata}/flame/data:/app/data
     environment:
       - PASSWORD=${FLAME_PASSWORD}
     image: pawelmalak/flame:latest

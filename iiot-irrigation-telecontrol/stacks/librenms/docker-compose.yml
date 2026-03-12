@@ -10,7 +10,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - /opt/appdata/librenms/db:/var/lib/mysql
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/db:/var/lib/mysql
     environment:
       - TZ=${TZ}
       - MARIADB_RANDOM_ROOT_PASSWORD=yes
@@ -36,7 +36,7 @@ services:
       - db
       - redis
     volumes:
-      - /opt/appdata/librenms/data:/data  
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/data:/data  
     environment:
       - TZ=${TZ}
       - PUID=${PUID}
@@ -64,7 +64,7 @@ services:
       - librenms
       - redis
     volumes:
-      - /opt/appdata/librenms/data:/data
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/data:/data
     environment:
       - TZ=${TZ}
       - PUID=${PUID}
@@ -86,7 +86,7 @@ services:
       - librenms
       - redis
     volumes:
-      - /opt/appdata/librenms/data:/data
+      - ${APPDATA_DIR:-/opt/appdata}/librenms/data:/data
     environment:
       - TZ=${TZ}
       - PUID=${PUID}
