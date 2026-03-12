@@ -14,7 +14,6 @@ STACK_ORDER=(
   homepage
   ig_cbu_test
   librenms
-  openproject
   postgresql_cbu
   speckle
   utility
@@ -24,6 +23,7 @@ STACK_ORDER=(
 # Stack temporaneamente esclusi dai comandi *-active.
 SUSPENDED_STACKS=(
   speckle
+  openproject
 )
 
 usage() {
