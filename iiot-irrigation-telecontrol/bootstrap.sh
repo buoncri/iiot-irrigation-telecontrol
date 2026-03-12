@@ -55,6 +55,9 @@ SYS_DOMAIN=telecontrollo.local
 
 # Percorso Dockge
 DOCKGE_STACKS_DIR=$PROJECT_DIR/stacks
+
+# Credenziali Database (Configurazione Zero)
+POSTGRES_PASSWORD=postgres
 ENV_EOF
 fi
 

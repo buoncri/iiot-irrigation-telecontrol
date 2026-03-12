@@ -86,7 +86,7 @@ services:
       - librenms
       - redis
     volumes:
-      - /opt/appdata/librenms/data:/data"
+      - /opt/appdata/librenms/data:/data
     environment:
       - TZ=${TZ}
       - PUID=${PUID}
