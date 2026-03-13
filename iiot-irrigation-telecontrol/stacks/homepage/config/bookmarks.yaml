@@ -52,3 +52,25 @@
           abbr: EM
           href: mailto:buoncri@libero.it
           description: invia email a @buoncri
+
+- Finanziamenti FEASR:
+    - Unione Europea:
+        - icon: icons/ue.png
+          abbr: UE
+          href: https://european-union.europa.eu/
+          description: Fondo Europeo Agricolo per lo Sviluppo Rurale
+    - Masaf:
+        - icon: icons/repubblica.png
+          abbr: MASAF
+          href: https://www.politicheagricole.it/
+          description: Ministero dell'agricoltura, della sovranità alimentare e delle foreste
+    - Regione Umbria:
+        - icon: icons/regione_umbria.png
+          abbr: RU
+          href: https://www.regione.umbria.it/agricoltura
+          description: Sviluppo Rurale
+    - CSR Umbria:
+        - icon: icons/csr.png
+          abbr: CSR
+          href: https://www.regione.umbria.it/csrumbria
+          description: Complemento di Sviluppo Rurale per l'Umbria 2023-2027
