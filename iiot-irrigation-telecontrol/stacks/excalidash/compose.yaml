@@ -76,6 +76,13 @@ services:
       - excalidash-network
     labels:
       - autoheal=true
+      - homepage.group=Applications
+      - homepage.name=Excalidash
+      - homepage.description=Diagram Editor
+      - homepage.icon=excalidash
+      - homepage.href=http://${SYS_IP:-127.0.0.1}:6767
+      # - homepage.href=http://${SYS_IP}:8060
+
 networks:
   excalidash-network:
     driver: bridge

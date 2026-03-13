@@ -19,7 +19,7 @@ echo "🚀 Inizio procedura di bootstrap o riparazione..."
 # ==========================================
 # 1. Dipendenze e Docker
 # ==========================================
-if ! command -v docker >/dev/null 2>&1; then
+if ! command -v docker >/dev/null 2>&1 || ! docker compose version >/dev/null 2>&1; then
     echo "📦 Installazione di Docker e plugin Compose..."
     sudo apt-get update
     sudo apt-get install -y ca-certificates curl docker.io docker-compose
@@ -47,7 +47,8 @@ sudo chown -R "$USER:$USER" "$APPDATA_DIR"
 # ==========================================
 if [ ! -f "$GLOBAL_ENV" ]; then
     echo "⚙️  Creazione del file .env.global di base (attendi...)"
-    IP_LOCAL=$(ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v '127.0.0.1' | head -n 1) || "192.168.0.6"
+    IP_LOCAL=$(ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v '127.0.0.1' | head -n 1)
+    [ -z "$IP_LOCAL" ] && IP_LOCAL="127.0.0.1"
     DOMAIN_LOCAL="${HOSTNAME:-telecontrollo}.local"
     cat << ENV_EOF > "$GLOBAL_ENV"
 # Configurazione Globale Sistema
@@ -62,11 +63,23 @@ POSTGRES_PASSWORD=postgres
 ENV_EOF
 fi
 
-echo "🔗 Ricostruzione symlink .env (se mancano)..."
+echo "🔗 Allineamento file .env per gli stack..."
 ln -sf "../.env.global" "$PROJECT_DIR/dockge/.env"
 for stack_dir in "$PROJECT_DIR/stacks"/*/; do
     if [ -d "$stack_dir" ]; then
-        ln -sf "../../.env.global" "${stack_dir}.env"
+        if [ -L "${stack_dir}.env" ]; then
+            rm "${stack_dir}.env"
+        fi
+        
+        # Crea il file partendo dal global
+        cat "$GLOBAL_ENV" > "${stack_dir}.env"
+        echo "" >> "${stack_dir}.env" # Ensure newline
+        
+        # Se c'è un file di esempio, appendi le variabili specifiche dello stack
+        if [ -f "${stack_dir}.env.example" ]; then
+            cat "${stack_dir}.env.example" >> "${stack_dir}.env"
+            echo "" >> "${stack_dir}.env" # Ensure newline
+        fi
     fi
 done
 

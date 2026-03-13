@@ -2,6 +2,11 @@ services:
   omni-tools:
     image: iib0011/omni-tools:latest
     container_name: omni-tools
+    ports:
+      - 8090:80
+    restart: unless-stopped
+    networks:
+      - iiot_internal
     labels:
       # - autoheal=true
       - homepage.group=Applications
@@ -9,11 +14,7 @@ services:
       - homepage.description=Pdf, img, txt and video utility
       - homepage.icon=omni-tools
       - homepage.href=http://${SYS_IP}:8090
-    ports:
-      - 8090:80
-    restart: unless-stopped
-    networks:
-      - iiot_internal
+
 networks:
   iiot_internal:
     external: true
