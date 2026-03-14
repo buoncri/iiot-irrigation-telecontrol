@@ -49,7 +49,7 @@ services:
       - homepage.name=OpenProject DB
       - homepage.icon=postgresql.png
       - homepage.description=PostgreSQL Database
-      # - homepage.href=http://192.168.0.6:5432
+      # - homepage.href=http://${SYS_IP}:5432
       # - homepage.show=hidden # Nascosto dalla principale
   cache:
     image: memcached
@@ -61,7 +61,7 @@ services:
     #   - homepage.name=OpenProject Cache
     #   - homepage.icon=memcached.png
     #   - homepage.description=Memcached
-    #   - homepage.href=http://192.168.0.6:11211
+    #   - homepage.href=http://${SYS_IP}:11211
     #   - homepage.show=hidden
   proxy:
     build:
@@ -104,7 +104,7 @@ services:
       - homepage.name=OpenProject
       - homepage.icon=openproject
       - homepage.description=Project Management BIM
-      - homepage.href=http://192.168.0.6:8081
+      - homepage.href=http://${SYS_IP}:8081
     healthcheck:
       test:
         - CMD

@@ -17,12 +17,16 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    networks:
+      - iiot_internal
     restart: always
   redis:
     image: redis:7.2-alpine
     container_name: librenms_redis
     environment:
       - TZ=${TZ}
+    networks:
+      - iiot_internal
     restart: always
   librenms:
     image: librenms/librenms:latest
@@ -55,6 +59,8 @@ services:
       - homepage.icon=librenms
       - homepage.href=http://${SYS_IP:-127.0.0.1}:8020
       - homepage.description=Network Monitoring
+    networks:
+      - iiot_internal
     restart: always
   dispatcher:
     image: librenms/librenms:latest
@@ -77,6 +83,8 @@ services:
       - DISPATCHER_NODE_ID=dispatcher1
       - SIDECAR_DISPATCHER=1
       - REDIS_HOST=redis
+    networks:
+      - iiot_internal
     restart: always
   scheduler:
     image: librenms/librenms:latest
@@ -98,6 +106,10 @@ services:
       - DB_TIMEOUT=60
       - SIDECAR_SCHEDULER=1 # Abilita la modalità scheduler
       - REDIS_HOST=redis
+    networks:
+      - iiot_internal
     restart: always
 
-networks: {}
+networks:
+  iiot_internal:
+    external: true

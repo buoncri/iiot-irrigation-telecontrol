@@ -60,6 +60,7 @@ DOCKGE_STACKS_DIR=$PROJECT_DIR/stacks
 
 # Credenziali Database (Configurazione Zero)
 POSTGRES_PASSWORD=postgres
+APPDATA_DIR=$APPDATA_DIR
 ENV_EOF
 fi
 
@@ -67,18 +68,21 @@ echo "🔗 Allineamento file .env per gli stack..."
 ln -sf "../.env.global" "$PROJECT_DIR/dockge/.env"
 for stack_dir in "$PROJECT_DIR/stacks"/*/; do
     if [ -d "$stack_dir" ]; then
-        if [ -L "${stack_dir}.env" ]; then
-            rm "${stack_dir}.env"
+        stack_env="${stack_dir}.env"
+
+        if [ -L "$stack_env" ]; then
+            rm "$stack_env"
         fi
-        
-        # Crea il file partendo dal global
-        cat "$GLOBAL_ENV" > "${stack_dir}.env"
-        echo "" >> "${stack_dir}.env" # Ensure newline
-        
-        # Se c'è un file di esempio, appendi le variabili specifiche dello stack
-        if [ -f "${stack_dir}.env.example" ]; then
-            cat "${stack_dir}.env.example" >> "${stack_dir}.env"
-            echo "" >> "${stack_dir}.env" # Ensure newline
+
+        # Non sovrascrive gli .env esistenti: evita perdita di personalizzazioni locali.
+        if [ ! -f "$stack_env" ]; then
+            cat "$GLOBAL_ENV" > "$stack_env"
+            echo "" >> "$stack_env"
+
+            if [ -f "${stack_dir}.env.example" ]; then
+                cat "${stack_dir}.env.example" >> "$stack_env"
+                echo "" >> "$stack_env"
+            fi
         fi
     fi
 done
