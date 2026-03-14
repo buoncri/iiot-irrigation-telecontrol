@@ -2,7 +2,24 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/bookmarks
 
-- Software Stack:
+- Accesso Operativo:
+    - Dockge:
+        - icon: dockge.png
+          abbr: DG
+          href: http://{{HOMEPAGE_VAR_SYS_IP}}:5001
+          description: Gestione stack compose
+    - Portainer:
+        - icon: portainer.png
+          abbr: PT
+          href: https://{{HOMEPAGE_VAR_SYS_IP}}:9443
+          description: Gestione container e volumi
+    - Homepage:
+        - icon: homepage.png
+          abbr: HP
+          href: http://{{HOMEPAGE_VAR_SYS_IP}}:3000
+          description: Dashboard servizi locali
+
+- Infrastruttura:
     - Linux:
         - icon: linux
           abbr: LX
@@ -20,10 +37,11 @@
           description: Virtualizzazione e containerizzazione [Container]
 
 - C.B.U. Network:
-    - Homepage:
+    - Sito C.B.U.:
         - icon: homepage
           abbr: HP
           href: http://www.bonificaumbra.it
+          description: Portale istituzionale
 
     - Facebook:
         - icon: facebook
@@ -37,15 +55,17 @@
           description: invia email a @bonificaumbra
 
 - Developer Network:
-    - Github:
+    - GitHub:
         - icon: github
           abbr: GH
-          href: https://www.github.com/buoncri
+          href: https://github.com/buoncri
+          description: Repository e versionamento
 
-    - Linkedin:
+    - LinkedIn:
         - icon: linkedin
           abbr: LI
           href: https://www.linkedin.com/in/buoncri
+          description: Profilo professionale
 
     - Email:
         - icon: mail

@@ -1,11 +1,19 @@
 ---
 # Widget di ricerca e risorse di sistema
 - search:
-    provider: google
+    provider: duckduckgo
     target: _blank
     focus: true
     showSearchIcon: true
-    placeholder: "Cerca sul web..."
+    placeholder: "Cerca documentazione, issue e comandi..."
+
+- datetime:
+    text_size: sl
+    locale: it-IT
+    format:
+      dateStyle: full
+      timeStyle: medium
+      hour12: false
 
 - resources:
     cpu: true
