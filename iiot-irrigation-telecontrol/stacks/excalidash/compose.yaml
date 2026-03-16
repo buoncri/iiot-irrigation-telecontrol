@@ -55,7 +55,7 @@ services:
       retries: 5
       start_period: 15s
     networks:
-      - excalidash-network
+      - iiot_internal
     command: |
       sh -c "npx prisma migrate deploy && node server.js"
   frontend:
@@ -73,16 +73,15 @@ services:
       backend:
         condition: service_healthy
     networks:
-      - excalidash-network
+      - iiot_internal
     labels:
       - autoheal=true
       - homepage.group=Applications
       - homepage.name=Excalidash
       - homepage.description=Diagram Editor
-      - homepage.icon=excalidash
+      - homepage.icon=dashboard-icons
       - homepage.href=http://${SYS_IP:-127.0.0.1}:6767
-      # - homepage.href=http://${SYS_IP}:8060
 
 networks:
-  excalidash-network:
-    driver: bridge
+  iiot_internal:
+    external: true
