@@ -24,7 +24,15 @@ services:
       -n docker-test
 
       -m 24576 -- wrapper.java.initmemory=2048 -Dignition.allowunsignedmodules=true
-  
+    labels:
+      - autoheal=true
+      - homepage.group=BIM&GIS
+      - homepage.name=OpenProject
+      - homepage.icon=openproject
+      - homepage.description=Project Management BIM
+      - homepage.href=http://${SYS_IP}:8081
+
 networks:
   iiot_internal:
     external: true
+

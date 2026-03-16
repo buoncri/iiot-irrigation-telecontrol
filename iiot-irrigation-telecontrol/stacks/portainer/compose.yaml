@@ -11,13 +11,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${APPDATA_DIR:-/opt/appdata}/portainer/data:/data
     labels:
-      - "homepage.group=Managers"
-      - "homepage.name=Portainer"
-      - "homepage.icon=portainer.png"
-      - "homepage.href=${PORTAINER_HOMEPAGE_HREF:-https://${SYS_IP}:9443}"
-      - "homepage.description=Docker Container Management"
-      # - "homepage.widget.type=open"
-      # - "homepage.widget.url=https://${SYS_IP}:9443"
-      # - "homepage.widget.fields={\"container\":\"portainer\",\"env\":\"my-docker\",\"endpoint\":3,\"key\":\"${PORTAINER_API_KEY}\"}"
-
-
+      - homepage.group=Managers
+      - homepage.name=Portainer
+      - homepage.icon=portainer
+      - homepage.href=${PORTAINER_HOMEPAGE_HREF:-https://${SYS_IP}:9443}
+      - homepage.description=Container Management
+networks: {}
