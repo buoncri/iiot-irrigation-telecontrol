@@ -11,22 +11,22 @@ STACK_ORDER=(
   portainer
   wud  
   beets
+  postgresql_cbu
   excalidash
   flame
   ig_cbu_test
   librenms
-  postgresql_cbu
-  speckle
   utility
   openproject
-  geonode
+  geoserver
+  speckle
 )
 
 # Stack temporaneamente esclusi dai comandi *-active.
 SUSPENDED_STACKS=(
   speckle
   openproject
-  geonode
+  geoserver
 )
 
 usage() {
