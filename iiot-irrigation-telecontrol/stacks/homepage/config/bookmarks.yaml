@@ -3,6 +3,11 @@
 # https://gethomepage.dev/configs/bookmarks
 
 - Accesso Operativo:
+    - Homepage:
+        - icon: homepage.png
+          abbr: HP
+          href: http://{{HOMEPAGE_VAR_SYS_IP}}:3000
+          description: Dashboard servizi locali
     - Dockge:
         - icon: dockge.png
           abbr: DG
@@ -13,11 +18,11 @@
           abbr: PT
           href: https://{{HOMEPAGE_VAR_SYS_IP}}:9443
           description: Gestione container e volumi
-    - Homepage:
-        - icon: homepage.png
-          abbr: HP
-          href: http://{{HOMEPAGE_VAR_SYS_IP}}:3000
-          description: Dashboard servizi locali
+    - WUD:
+        - icon: wud.png
+          abbr: WUD
+          href: https://{{HOMEPAGE_VAR_SYS_IP}}:8000
+          description: Gestione aggiornamenti 
 
 - Infrastruttura:
     - Linux:
