@@ -31,6 +31,7 @@ SUSPENDED_STACKS=(
   fossflow
   excalidash
   ig_cbu_test
+  speckle
 )
 
 usage() {
