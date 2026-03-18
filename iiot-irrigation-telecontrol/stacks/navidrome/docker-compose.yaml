@@ -1,0 +1,26 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    ports:
+      - 4533:4533
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Rome}
+      ND_SCANSCHEDULE: ${ND_SCANSCHEDULE:-1h}
+      ND_LOGLEVEL: ${ND_LOGLEVEL:-info}
+      ND_SESSIONTIMEOUT: ${ND_SESSIONTIMEOUT:-24h}
+      ND_BASEURL: ""
+    volumes:
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/navidrome/data:/data
+      - ${MEDIA_DIR:-/opt/iiot-irrigation-telecontrol/media}/music:/music:ro
+    networks:
+      - iiot_internal
+    labels:
+      - homepage.group=Multimedia
+      - homepage.name=Navidrome
+      - homepage.icon=navidrome
+      - homepage.description=Server musicale
+      - homepage.href=http://${SYS_IP}:4533
+networks:
+  iiot_internal:
+    external: true

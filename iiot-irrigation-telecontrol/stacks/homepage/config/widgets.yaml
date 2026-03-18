@@ -3,7 +3,6 @@
 - greeting:
     text_size: xl
     text: IIoT Server
-    label: loc. Trevi 
 
 # Widget di ricerca -----------
 - search:
@@ -30,7 +29,7 @@
     cpu: true
     memory: true
     disk: /
-    uptime: true
+    # uptime: true
 
 # - datetime:
 #     text_size: sl

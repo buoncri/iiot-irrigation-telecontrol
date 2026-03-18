@@ -1,0 +1,58 @@
+services:
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless
+    depends_on:
+      - paperless_db
+      - paperless_redis
+    ports:
+      - 8018:8000
+    environment:
+      - PAPERLESS_REDIS=redis://paperless_redis:6379
+      - PAPERLESS_DBHOST=paperless_db
+      - PAPERLESS_DBNAME=${PAPERLESS_DBNAME:-paperless}
+      - PAPERLESS_DBUSER=${PAPERLESS_DBUSER:-paperless}
+      - PAPERLESS_DBPASS=${PAPERLESS_DBPASS:-paperless}
+      - PAPERLESS_TIME_ZONE=${TZ:-Europe/Rome}
+      - PAPERLESS_OCR_LANGUAGE=${PAPERLESS_OCR_LANGUAGE:-ita+eng}
+      - PAPERLESS_URL=${PAPERLESS_URL:-http://${SYS_IP}:8018}
+      - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-admin}
+      - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASSWORD:-admin}
+    volumes:
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/data:/usr/src/paperless/data
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/media:/usr/src/paperless/media
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/export:/usr/src/paperless/export
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/consume:/usr/src/paperless/consume
+    networks:
+      - iiot_internal
+    restart: unless-stopped
+    labels:
+      - homepage.group=Formazione
+      - homepage.name=Paperless-ngx
+      - homepage.icon=paperless-ngx
+      - homepage.description=Archivio e OCR documentale
+      - homepage.href=http://${SYS_IP}:8018
+
+  paperless_db:
+    image: postgres:16
+    container_name: paperless_db
+    environment:
+      - POSTGRES_DB=${PAPERLESS_DBNAME:-paperless}
+      - POSTGRES_USER=${PAPERLESS_DBUSER:-paperless}
+      - POSTGRES_PASSWORD=${PAPERLESS_DBPASS:-paperless}
+    volumes:
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/postgres:/var/lib/postgresql/data
+    networks:
+      - iiot_internal
+    restart: unless-stopped
+
+  paperless_redis:
+    image: redis:7-alpine
+    container_name: paperless_redis
+    networks:
+      - iiot_internal
+    restart: unless-stopped
+
+networks:
+  iiot_internal:
+    external: true

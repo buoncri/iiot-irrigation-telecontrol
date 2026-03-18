@@ -8,16 +8,19 @@ STACKS_DIR="$ROOT_DIR/stacks"
 STACK_ORDER=(
   portainer
   homepage
-  flame  
+  flame
   wud
   librenms
   geoserver_cbu
   speckle
   openproject
   beets
+  navidrome
+  jellyfin
+  paperless
   postgresql_cbu
   utility
-  fossflow  
+  fossflow
   excalidash
   ig_cbu_test
 )
@@ -26,12 +29,7 @@ STACK_ORDER=(
 SUSPENDED_STACKS=(
   librenms
   openproject
-  beets
-  utility
-  fossflow
-  excalidash
-  ig_cbu_test
-  speckle
+  portainer
 )
 
 usage() {
