@@ -1,27 +1,21 @@
 ---
-# Widget di ricerca e risorse di sistema
+# Label principale ------------
+- greeting:
+    text_size: xl
+    text: IIoT Server
+    label: loc. Trevi 
+
+# Widget di ricerca -----------
 - search:
     provider: duckduckgo
     target: _blank
     focus: true
     showSearchIcon: true
-    placeholder: "Cerca documentazione, issue e comandi..."
+    placeholder: "Cerca ..."
 
-- datetime:
-    text_size: sl
-    locale: it-IT
-    format:
-      dateStyle: full
-      timeStyle: medium
-      hour12: false
-
-- resources:
-    cpu: true
-    memory: true
-    disk: /
-
+# Meteo -----------------------
 - openmeteo:
-    label: Trevi # optional
+    label: loc. Trevi # optional
     latitude: 42.86566586745911
     longitude: 12.737591888271927
     timezone: Europe/Vatican # optional
@@ -29,3 +23,19 @@
     cache: 5 # Time in minutes to cache API responses, to stay within limits
     format: # optional, Intl.NumberFormat options
       maximumFractionDigits: 1
+
+# Risorse di sistema ----------------
+- resources:
+    label: Informazioni di sistema
+    cpu: true
+    memory: true
+    disk: /
+    uptime: true
+
+# - datetime:
+#     text_size: sl
+#     locale: it-IT
+#     format:
+#       dateStyle: full
+#       timeStyle: medium
+#       hour12: false

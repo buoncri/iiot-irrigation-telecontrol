@@ -12,7 +12,7 @@ showStats: false
 # Tema
 theme: dark
 color: stone
-iconStyle: "solid" # opzioni: theme, solid, brands
+iconStyle: theme # opzioni: theme, solid, brands
 groupsInitiallyCollapsed: false
 statusStyle: "dot"
 useEqualHeights: true
