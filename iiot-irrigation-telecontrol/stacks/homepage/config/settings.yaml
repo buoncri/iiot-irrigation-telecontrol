@@ -1,13 +1,18 @@
 ---
+# Telecontrollo Dashboard - Configurazione
 title: Telecontrollo Dashboard 
 description: Collegamenti alle attività e utilità degli impianti di Irrigazione
 startup: true
 language: it
-# showStats: true
+showStats: false
+
+# Bookmarks
+# bookmarksStyle: icons
 
 # Tema
 theme: dark
-color: slate
+color: stone
+iconStyle: "solid" # opzioni: theme, solid, brands
 groupsInitiallyCollapsed: false
 statusStyle: "dot"
 useEqualHeights: true
@@ -15,42 +20,67 @@ background:
   color: "#1e1e2e"
 
 header:
-  style: boxedWidgets  # opzioni: clean, boxed, underlined, boxedWidgets
+  style: clean  # opzioni: clean, boxed, underlined, boxedWidgets
 
 target: _self
 
+########
+tabs:
+  Applications:
+    icon: pypi
+    description: Applicazioni e strumenti per la gestione degli impianti di irrigazione
+
+  BIM&GIS:
+    icon: openstreetmap
+    description: Strumenti per la gestione di dati geospaziali e modelli BIM
+
+  Multimedia:
+    icon: channels-dvr
+    description: Strumenti per la gestione di contenuti multimediali
+
+  Managers:
+    icon: appdaemon
+    description: Strumenti per la gestione e il monitoraggio dei sistemi
+
+
 layout:
 
-  Monitors:
+  IIoT:
     tab: Applications
     style: row
-    columns: 4
-    icon: factory
+    columns: 6
+    icon: android-robot
 
   Applications:
     tab: Applications
     style: row
-    columns: 4
-    icon: mdi mdi-application-edit
+    columns: 6
+    icon: pypi
+
+  Monitors:
+    tab: Applications
+    style: row
+    columns: 6
+    icon: chrome-remote-desktop
 
   BIM&GIS:
     tab: BIM&GIS
     style: row
-    columns: 4
-    icon: mdi mdi-account-hard-hat
+    columns: 6
+    icon: openstreetmap
 
   Multimedia:
     tab: Multimedia
     style: row
-    columns: 4
-    icon: mdi mdi-multimedia
+    columns: 6
+    icon: channels-dvr
 
   Managers:
     tab: Managers
     style: row
-    columns: 4
-    icon: mdi mdi-docker
- 
+    columns: 6
+    icon: appdaemon
+
 # Mostra tutti i container Docker
 docker:
   showAll: false
