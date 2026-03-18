@@ -16,14 +16,12 @@ services:
       - 8337:8337
     labels:
       # - autoheal=true
-      - homepage.group=Applications
+      - homepage.group=Multimedia
       - homepage.name=Beets
       - homepage.description=Music library manager
       - homepage.icon=beets
       - homepage.href=http://${SYS_IP}:8337
-
     restart: unless-stopped
-
 networks:
   iiot_internal:
     external: true

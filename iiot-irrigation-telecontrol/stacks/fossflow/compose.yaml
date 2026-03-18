@@ -16,10 +16,9 @@ services:
       - homepage.group=Applications
       - homepage.name=FOSSFlow
       - homepage.description=3D Flowchart Editor
-      - homepage.icon=mdi-sitemap
+      - homepage.icon=roundcube
       # - homepage.href=http://${SYS_IP:-127.0.0.1}:8060
       - homepage.href=http://${SYS_IP}:8060
-
 networks:
   iiot_internal:
     external: true

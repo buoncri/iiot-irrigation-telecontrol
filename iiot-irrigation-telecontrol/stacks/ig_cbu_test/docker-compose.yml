@@ -8,7 +8,8 @@ services:
       - 8043:8043/udp
       - 4446:4446/udp
     volumes:
-      - ${APPDATA_DIR:-/opt/appdata}/ig_cbu_test/data:/usr/local/bin/ignition/data
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/ig_cbu_test/db:/usr/local/bin/ignition/data/db
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/ig_cbu_test/projects:/usr/local/bin/ignition/data/projects
     networks:
       - iiot_internal
     environment:
@@ -28,11 +29,10 @@ services:
       - autoheal=true
       - homepage.group=IIoT
       - homepage.name=Ignition Gateway
-      - homepage.icon=ignition
+      - homepage.icon=mosquitto
       - homepage.description=Ignition SCADA Gateway (test)
       - homepage.href=http://${SYS_IP}:8088
 
 networks:
   iiot_internal:
     external: true
-
