@@ -12,6 +12,9 @@ services:
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
     image: docker.osgeo.org/geoserver:2.28.0
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_DIR:-/opt/appdata}/geoserver_cbu/data:/opt/geoserver_data
     labels:
       - homepage.group=BIM&GIS
       - homepage.name=GeoServer

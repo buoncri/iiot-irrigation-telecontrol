@@ -1,47 +1,56 @@
 ---
-title: Telecontrollo Dashboard
-description: Collegamenti alle attività e utilità degli impianti di Irrigazione C.B.U.
+title: Telecontrollo Dashboard 
+description: Collegamenti alle attività e utilità degli impianti di Irrigazione
 startup: true
 language: it
-showStats: false
+# showStats: true
 
 # Tema
 theme: dark
 color: slate
+groupsInitiallyCollapsed: false
+statusStyle: "dot"
+useEqualHeights: true
 background:
   color: "#1e1e2e"
 
 header:
-  style: underlined  # opzioni: clean, boxed, underlined
+  style: boxedWidgets  # opzioni: clean, boxed, underlined, boxedWidgets
 
 target: _self
 
 layout:
-  Managers:
-    style: row
-    columns: 6
-    icon: mdi-docker
 
   Monitors:
+    tab: Applications
     style: row
-    columns: 6
-    icon: mdi-factory
+    columns: 4
+    icon: factory
 
   Applications:
+    tab: Applications
     style: row
-    columns: 6
-    icon: mdi-application-edit
+    columns: 4
+    icon: mdi mdi-application-edit
 
   BIM&GIS:
+    tab: BIM&GIS
     style: row
-    columns: 6
-    icon: mdi-account-hard-hat
+    columns: 4
+    icon: mdi mdi-account-hard-hat
 
   Multimedia:
+    tab: Multimedia
     style: row
-    columns: 6
-    icon: mdi-multimedia
+    columns: 4
+    icon: mdi mdi-multimedia
 
+  Managers:
+    tab: Managers
+    style: row
+    columns: 4
+    icon: mdi mdi-docker
+ 
 # Mostra tutti i container Docker
 docker:
   showAll: false
