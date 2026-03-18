@@ -22,8 +22,6 @@ services:
       # - homepage.href=http://${SYS_IP}:5433
       # - homepage.widget.type=postgres # statistiche DB
       # - homepage.widget.url=postgres://postgres:${POSTGRES_PASSWORD}@${SYS_IP}:5433/postgresql_cbu
-volumes:
-  postgresql_cbu_data: null
 
 networks:
   iiot_internal:

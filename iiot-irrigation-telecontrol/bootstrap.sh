@@ -4,6 +4,14 @@
 # =========================================================================
 set -e # Interrompe in caso di errori gravi
 
+run_privileged() {
+    if [ "$(id -u)" -eq 0 ]; then
+        "$@"
+    else
+        sudo "$@"
+    fi
+}
+
 # Permette di eseguire passi previlegiati
 if [ "$(id -u)" != "0" ] && [ -z "$SUDO_USER" ]; then
     echo "Questo script proverà a elevare i permessi con sudo quando necessario."
@@ -21,14 +29,31 @@ echo "🚀 Inizio procedura di bootstrap o riparazione..."
 # ==========================================
 if ! command -v docker >/dev/null 2>&1 || ! docker compose version >/dev/null 2>&1; then
     echo "📦 Installazione di Docker e plugin Compose..."
-    sudo apt-get update
-    sudo apt-get install -y ca-certificates curl docker.io docker-compose
+    run_privileged apt-get update
+    run_privileged apt-get install -y ca-certificates curl docker.io docker-compose
+fi
+
+echo "🐳 Verifica servizio Docker in esecuzione..."
+if ! run_privileged docker info >/dev/null 2>&1; then
+    if command -v systemctl >/dev/null 2>&1; then
+        # Su Linux con systemd abilita e avvia Docker all'avvio del sistema.
+        run_privileged systemctl enable docker >/dev/null 2>&1 || true
+        run_privileged systemctl start docker
+    elif command -v service >/dev/null 2>&1; then
+        run_privileged service docker start
+    fi
+fi
+
+if ! run_privileged docker info >/dev/null 2>&1; then
+    echo "❌ Docker risulta installato ma non in esecuzione."
+    echo "   Avvia il servizio con: sudo systemctl start docker"
+    exit 1
 fi
 
 # 2. Configurazione Utente
 if ! groups "$USER" | grep -q '\bdocker\b'; then
     echo "🔐 Aggiunta utente $USER al gruppo docker..."
-    sudo usermod -aG docker "$USER"
+    run_privileged usermod -aG docker "$USER"
 fi
 
 # ==========================================
@@ -36,11 +61,11 @@ fi
 # ==========================================
 echo "🌐 Verifica rete docker globale..."
 # Creazione rete con driver standard se non esiste
-sudo docker network create iiot_internal 2>/dev/null || true
+run_privileged docker network create iiot_internal 2>/dev/null || true
 
 echo "📁 Creazione della directory volumi persistenti: $APPDATA_DIR"
-sudo mkdir -p "$APPDATA_DIR"
-sudo chown -R "$USER:$USER" "$APPDATA_DIR"
+run_privileged mkdir -p "$APPDATA_DIR"
+run_privileged chown -R "$USER:$USER" "$APPDATA_DIR"
 
 # ==========================================
 # 4. Entrypoint di rete e Symlink Env
@@ -92,7 +117,7 @@ done
 # ==========================================
 echo "▶️  Avvio del manager Dockge..."
 cd "$PROJECT_DIR/dockge"
-sudo docker compose up -d
+run_privileged docker compose up -d
 
 echo "✅ Installazione/Ripristino completato con successo!"
 echo "   -> Ora tutti i tuoi stack sono visibili da Dockge."

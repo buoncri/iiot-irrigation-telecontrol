@@ -6,27 +6,32 @@ STACKS_DIR="$ROOT_DIR/stacks"
 
 # Ordine esplicito per avere avvio/arresto ripetibili.
 STACK_ORDER=(
-  homepage
-  fossflow
   portainer
-  wud  
+  homepage
+  flame  
+  wud
+  librenms
+  geoserver_cbu
+  speckle
+  openproject
   beets
   postgresql_cbu
-  excalidash
-  flame
-  ig_cbu_test
-  librenms
   utility
-  openproject
-  geoserver
-  speckle
+  fossflow  
+  excalidash
+  ig_cbu_test
 )
 
 # Stack temporaneamente esclusi dai comandi *-active.
 SUSPENDED_STACKS=(
-  speckle
+  librenms
   openproject
-  geoserver
+  beets
+  utility
+  fossflow
+  excalidash
+  ig_cbu_test
+  speckle
 )
 
 usage() {

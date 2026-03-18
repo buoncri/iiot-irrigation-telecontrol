@@ -26,11 +26,11 @@ services:
       -m 24576 -- wrapper.java.initmemory=2048 -Dignition.allowunsignedmodules=true
     labels:
       - autoheal=true
-      - homepage.group=BIM&GIS
-      - homepage.name=OpenProject
-      - homepage.icon=openproject
-      - homepage.description=Project Management BIM
-      - homepage.href=http://${SYS_IP}:8081
+      - homepage.group=IIoT
+      - homepage.name=Ignition Gateway
+      - homepage.icon=ignition
+      - homepage.description=Ignition SCADA Gateway (test)
+      - homepage.href=http://${SYS_IP}:8088
 
 networks:
   iiot_internal:
