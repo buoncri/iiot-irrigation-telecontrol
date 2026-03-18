@@ -79,9 +79,8 @@ services:
       - homepage.group=Applications
       - homepage.name=Excalidash
       - homepage.description=Diagram Editor
-      - homepage.icon=dashboard-icons
+      - homepage.icon=excalidraw
       - homepage.href=http://${SYS_IP:-127.0.0.1}:6767
-
 networks:
   iiot_internal:
     external: true
