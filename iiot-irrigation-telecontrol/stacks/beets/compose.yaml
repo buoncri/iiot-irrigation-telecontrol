@@ -3,19 +3,18 @@ services:
     image: lscr.io/linuxserver/beets:latest
     container_name: beets
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Rome}
     volumes:
-      - ${APPDATA_DIR:-/opt/appdata}/beets/config:/config
-      - ${APPDATA_DIR:-/opt/appdata}/beets/music:/music
-      - ${APPDATA_DIR:-/opt/appdata}/beets/ingest:/downloads
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/beets/config:/config
+      - ${MEDIA_DIR:-/opt/iiot-irrigation-telecontrol/media}/music:/music
+      - ${MEDIA_DIR:-/opt/iiot-irrigation-telecontrol/media}/ingest:/downloads
     networks:
       - iiot_internal
     ports:
       - 8337:8337
     labels:
-      # - autoheal=true
       - homepage.group=Multimedia
       - homepage.name=Beets
       - homepage.description=Music library manager

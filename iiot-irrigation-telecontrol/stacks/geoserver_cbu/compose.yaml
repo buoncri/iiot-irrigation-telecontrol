@@ -18,7 +18,7 @@ services:
     labels:
       - homepage.group=BIM&GIS
       - homepage.name=GeoServer
-      - homepage.icon=specter-desktop # mdi-target-variant # TODO cambiare
+      - homepage.icon=google-maps
       - homepage.href=${GEOSERVER_HOMEPAGE_HREF:-http://${SYS_IP}:8080/geoserver}
       - homepage.description=G.I.S. Server
 networks:

@@ -21,6 +21,7 @@ fi
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GLOBAL_ENV="${PROJECT_DIR}/.env.global"
 APPDATA_DIR="$PROJECT_DIR/appdata"
+MEDIA_DIR="$PROJECT_DIR/media"
 
 echo "🚀 Inizio procedura di bootstrap o riparazione..."
 
@@ -67,6 +68,10 @@ echo "📁 Creazione della directory volumi persistenti: $APPDATA_DIR"
 run_privileged mkdir -p "$APPDATA_DIR"
 run_privileged chown -R "$USER:$USER" "$APPDATA_DIR"
 
+echo "🎵 Creazione directory media condivisa: $MEDIA_DIR"
+run_privileged mkdir -p "$MEDIA_DIR/music" "$MEDIA_DIR/ingest"
+run_privileged chown -R "$USER:$USER" "$MEDIA_DIR"
+
 # Ignition Gateway: crea le directory di persistenza (db e projects).
 # Si montano solo le sottodirectory, così l'immagine gestisce i file base autonomamente.
 IGNITION_BASE="$APPDATA_DIR/ig_cbu_test"
@@ -92,6 +97,7 @@ DOCKGE_STACKS_DIR=$PROJECT_DIR/stacks
 # Credenziali Database (Configurazione Zero)
 POSTGRES_PASSWORD=postgres
 APPDATA_DIR=$APPDATA_DIR
+MEDIA_DIR=$MEDIA_DIR
 ENV_EOF
 fi
 

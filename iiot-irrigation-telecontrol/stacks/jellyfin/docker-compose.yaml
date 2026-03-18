@@ -1,0 +1,26 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    ports:
+      - 8096:8096
+      - 8920:8920
+    volumes:
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/jellyfin/config:/config
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/jellyfin/cache:/cache
+      - ${MEDIA_DIR:-/opt/iiot-irrigation-telecontrol/media}:/media:ro
+    environment:
+      - TZ=${TZ:-Europe/Rome}
+    restart: unless-stopped
+    networks:
+      - iiot_internal
+    labels:
+      - homepage.group=Multimedia
+      - homepage.name=Jellyfin
+      - homepage.icon=jellyfin
+      - homepage.description=Server multimediale
+      - homepage.href=http://${SYS_IP}:8096
+
+networks:
+  iiot_internal:
+    external: true
