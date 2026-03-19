@@ -70,7 +70,26 @@ run_privileged chown -R "$USER:$USER" "$APPDATA_DIR"
 
 echo "🎵 Creazione directory media condivisa: $MEDIA_DIR"
 run_privileged mkdir -p "$MEDIA_DIR/music" "$MEDIA_DIR/ingest"
+run_privileged mkdir -p \
+    "$MEDIA_DIR/ingest/audio" \
+    "$MEDIA_DIR/ingest/video" \
+    "$MEDIA_DIR/ingest/foto" \
+    "$MEDIA_DIR/ingest/documenti" \
+    "$MEDIA_DIR/processed/audio" \
+    "$MEDIA_DIR/processed/video" \
+    "$MEDIA_DIR/processed/foto" \
+    "$MEDIA_DIR/published/formazione" \
+    "$MEDIA_DIR/published/report"
 run_privileged chown -R "$USER:$USER" "$MEDIA_DIR"
+
+echo "🧠 Creazione directory knowledge/procedure in appdata"
+run_privileged mkdir -p \
+    "$APPDATA_DIR/knowledge/raw" \
+    "$APPDATA_DIR/knowledge/validated" \
+    "$APPDATA_DIR/knowledge/index" \
+    "$APPDATA_DIR/procedure" \
+    "$APPDATA_DIR/training"
+run_privileged chown -R "$USER:$USER" "$APPDATA_DIR/knowledge" "$APPDATA_DIR/procedure" "$APPDATA_DIR/training"
 
 # Ignition Gateway: crea le directory di persistenza (db e projects).
 # Si montano solo le sottodirectory, così l'immagine gestisce i file base autonomamente.
@@ -101,6 +120,34 @@ MEDIA_DIR=$MEDIA_DIR
 ENV_EOF
 fi
 
+sync_global_env_into_stack_env() {
+    local global_env="$1"
+    local stack_env="$2"
+    local stack_name="$3"
+    local changed=0
+
+    while IFS='=' read -r key value; do
+        if grep -qE "^${key}=" "$stack_env"; then
+            current_line=$(grep -m1 -E "^${key}=" "$stack_env")
+            desired_line="${key}=${value}"
+            if [ "$current_line" != "$desired_line" ]; then
+                escaped_value=$(printf '%s' "$value" | sed -e 's/[\\/&]/\\\\&/g')
+                sed -i -E "s|^${key}=.*$|${key}=${escaped_value}|" "$stack_env"
+                changed=1
+            fi
+        else
+            printf '%s=%s\n' "$key" "$value" >> "$stack_env"
+            changed=1
+        fi
+    done < <(grep -E '^[A-Za-z_][A-Za-z0-9_]*=' "$global_env")
+
+    if [ "$changed" -eq 1 ]; then
+        echo "   -> [$stack_name] chiavi globali sincronizzate"
+    else
+        echo "   -> [$stack_name] chiavi globali gia' allineate"
+    fi
+}
+
 echo "🔗 Allineamento file .env per gli stack..."
 ln -sf "../.env.global" "$PROJECT_DIR/dockge/.env"
 for stack_dir in "$PROJECT_DIR/stacks"/*/; do
@@ -111,7 +158,9 @@ for stack_dir in "$PROJECT_DIR/stacks"/*/; do
             rm "$stack_env"
         fi
 
-        # Non sovrascrive gli .env esistenti: evita perdita di personalizzazioni locali.
+        stack_name="$(basename "$stack_dir")"
+
+        # Se manca, crea il file con base globale + override stack specifico.
         if [ ! -f "$stack_env" ]; then
             cat "$GLOBAL_ENV" > "$stack_env"
             echo "" >> "$stack_env"
@@ -120,6 +169,10 @@ for stack_dir in "$PROJECT_DIR/stacks"/*/; do
                 cat "${stack_dir}.env.example" >> "$stack_env"
                 echo "" >> "$stack_env"
             fi
+            echo "   -> [$stack_name] creato da .env.global (+ .env.example se presente)"
+        else
+            # Sincronizza solo le chiavi globali note, preservando il resto del file stack.
+            sync_global_env_into_stack_env "$GLOBAL_ENV" "$stack_env" "$stack_name"
         fi
     fi
 done

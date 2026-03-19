@@ -55,6 +55,18 @@ chmod +x bootstrap.sh
 
 Lo script si occuperà di installare Docker (se mancante), configurare l'utente corrente, allocare la cartella `appdata/` isolata dal VCS, e fare il deploy automatico di **Dockge** (porta `5001`). Una volta avviato, la Web UI permetterà di istanziare autonomamente le restanti code applicative (`stacks/*`).
 
+### Nota su SYS_IP e file `.env` degli stack
+
+Le label Homepage (esempio: `homepage.href`) dipendono da `SYS_IP` presente nei file `.env` degli stack.
+Se l'IP host cambia o noti URL incompleti (es. `http://:8011`), riesegui:
+
+```bash
+cd iiot-irrigation-telecontrol
+./bootstrap.sh
+```
+
+Lo script sincronizza in modo idempotente le chiavi globali (inclusa `SYS_IP`) negli `.env` stack esistenti senza sovrascrivere le variabili stack-specifiche.
+
 ## Gestione Centralizzata CLI
 
 Per un'amministrazione rapida da terminale senza entrare in ciascuna directory, usare `scripts/stackctl.sh`.

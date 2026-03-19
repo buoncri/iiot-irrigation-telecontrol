@@ -18,6 +18,7 @@ STACK_ORDER=(
   navidrome
   jellyfin
   paperless
+  ollama
   postgresql_cbu
   utility
   fossflow
@@ -30,6 +31,8 @@ SUSPENDED_STACKS=(
   librenms
   openproject
   portainer
+  speckle
+  ollama
 )
 
 usage() {
