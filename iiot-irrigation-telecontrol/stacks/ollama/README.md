@@ -29,6 +29,24 @@ Fornire Q&A su documenti interni e supporto operativo leggero con consumo risors
 docker exec -it ollama ollama pull qwen2.5:7b
 ```
 
+Per un profilo operativo in italiano, creare il modello derivato:
+
+```bash
+docker exec -i ollama ollama create qwen2.5:7b-it -f - <<'EOF'
+FROM qwen2.5:7b
+SYSTEM """Rispondi sempre in italiano (Italia), salvo richiesta esplicita dell'utente per un'altra lingua.
+Mantieni uno stile tecnico, chiaro e operativo, adatto a contesto IIoT e telecontrollo impianti di irrigazione.
+Quando mancano dati, dichiaralo chiaramente e proponi verifiche pratiche.
+Evita invenzioni: se non sai, dillo.
+"""
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER repeat_penalty 1.1
+EOF
+```
+
+Con `DEFAULT_MODELS=qwen2.5:7b-it` Open WebUI usera questo profilo come default.
+
 Per macchine con meno RAM usare un modello piu leggero:
 
 ```bash
@@ -40,6 +58,18 @@ docker exec -it ollama ollama pull qwen2.5:3b
 - Lo stack e inserito in `SUSPENDED_STACKS` per evitare riavvii globali involontari.
 - Tenere `ENABLE_SIGNUP=False` in ambienti operativi.
 - Limitare il dataset RAG a documenti validati in `${APPDATA_DIR}/knowledge/validated`.
+
+### Signup automatico primo avvio
+
+Lo stack gestisce automaticamente la creazione del primo admin:
+
+- Se il database utenti e vuoto, abilita temporaneamente signup.
+- Dopo la creazione del primo utente, al riavvio successivo chiude signup.
+
+Variabili utili in `.env`:
+
+- `AUTO_SIGNUP_ON_EMPTY_DB=True` (consigliato)
+- `ENABLE_SIGNUP=False` fallback manuale
 
 ## Troubleshooting
 

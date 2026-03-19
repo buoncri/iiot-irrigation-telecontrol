@@ -24,10 +24,16 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - WEBUI_AUTH=${WEBUI_AUTH:-True}
       - WEBUI_NAME=${WEBUI_NAME:-IIoT Assistant}
+      - DEFAULT_MODELS=${DEFAULT_MODELS:-qwen2.5:7b-it}
       - DEFAULT_USER_ROLE=${DEFAULT_USER_ROLE:-user}
+      - AUTO_SIGNUP_ON_EMPTY_DB=${AUTO_SIGNUP_ON_EMPTY_DB:-True}
       - ENABLE_SIGNUP=${ENABLE_SIGNUP:-False}
+    command:
+      - /bin/sh
+      - /usr/local/bin/open-webui-entrypoint.sh
     volumes:
       - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/ollama/open-webui:/app/backend/data
+      - ./open-webui-entrypoint.sh:/usr/local/bin/open-webui-entrypoint.sh:ro
     networks:
       - iiot_internal
     labels:
