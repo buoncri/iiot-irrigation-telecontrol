@@ -59,6 +59,23 @@ docker exec -it ollama ollama pull qwen2.5:3b
 - Tenere `ENABLE_SIGNUP=False` in ambienti operativi.
 - Limitare il dataset RAG a documenti validati in `${APPDATA_DIR}/knowledge/validated`.
 
+## Avvio RAG documentale (fase 1)
+
+Runbook operativo:
+
+- `docs/rag-phase1-runbook.md`
+
+Policy fase 1:
+
+- Open WebUI e l'unica interfaccia RAG attiva.
+- Paperless e l'unico entrypoint standard per acquisizione documentazione tecnica.
+- Solo i documenti promossi in `${APPDATA_DIR}/knowledge/validated` sono interrogabili.
+
+Script leggeri disponibili:
+
+- `scripts/rag-backlog-report.sh`
+- `scripts/rag-promote-validated.sh`
+
 ### Signup automatico primo avvio
 
 Lo stack gestisce automaticamente la creazione del primo admin:

@@ -76,3 +76,20 @@ tar -czf /backup/iiot_$(date +%F).tar.gz appdata media/published
 - `scripts/stackctl.sh` aggiornato con stack `ollama` sospeso di default.
 
 Prossimo passo consigliato: creare script di retention/archiviazione automatica e check periodico integrita backup.
+
+## 7) Riferimento operativo RAG Fase 1
+
+Per il flusso documentale leggero (team ridotto) usare il runbook:
+
+- `docs/rag-phase1-runbook.md`
+
+Script di supporto:
+
+- `scripts/rag-backlog-report.sh`
+- `scripts/rag-promote-validated.sh`
+
+Policy attuale fase 1:
+
+- Paperless e l'entrypoint standard e unico per documentazione tecnica destinata al RAG.
+- Open WebUI e l'unica interfaccia RAG attiva.
+- Il dataset interrogabile resta `appdata/knowledge/validated`.
