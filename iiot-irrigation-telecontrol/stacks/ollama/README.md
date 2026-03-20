@@ -61,20 +61,13 @@ docker exec -it ollama ollama pull qwen2.5:3b
 
 ## Avvio RAG documentale (fase 1)
 
-Runbook operativo:
+Riferimento unico operativo:
 
 - `docs/rag-phase1-runbook.md`
 
-Policy fase 1:
+Principio minimo:
 
-- Open WebUI e l'unica interfaccia RAG attiva.
-- Paperless e l'unico entrypoint standard per acquisizione documentazione tecnica.
-- Solo i documenti promossi in `${APPDATA_DIR}/knowledge/validated` sono interrogabili.
-
-Script leggeri disponibili:
-
-- `scripts/rag-backlog-report.sh`
-- `scripts/rag-promote-validated.sh`
+- Paperless -> `knowledge/raw` -> `knowledge/validated` -> query Ollama.
 
 ### Signup automatico primo avvio
 

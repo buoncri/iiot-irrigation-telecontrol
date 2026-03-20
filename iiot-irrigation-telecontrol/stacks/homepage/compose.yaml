@@ -16,12 +16,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - homepage.name=Homepage Docker App
-      - homepage.group=Monitors
+      - homepage.group=Managers
       - homepage.icon=homepage.png
       - homepage.description=Dynamic Home Page
       - homepage.href=http://${SYS_IP}:3000
     restart: unless-stopped
-
 networks:
   iiot_internal:
     external: true

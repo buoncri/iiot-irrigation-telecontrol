@@ -12,7 +12,6 @@ services:
     networks:
       - iiot_internal
     restart: unless-stopped
-
   ollama_ui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: ollama_ui
@@ -33,17 +32,18 @@ services:
       - /usr/local/bin/open-webui-entrypoint.sh
     volumes:
       - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/ollama/open-webui:/app/backend/data
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/knowledge/validated:/knowledge/validated:ro
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/knowledge/index:/knowledge/index
       - ./open-webui-entrypoint.sh:/usr/local/bin/open-webui-entrypoint.sh:ro
     networks:
       - iiot_internal
     labels:
-      - homepage.group=Applications
+      - homepage.group=Formazione
       - homepage.name=Ollama UI
       - homepage.icon=sh-ollama
       - homepage.description=Assistente locale su documenti interni
       - homepage.href=http://${SYS_IP}:${OLLAMA_UI_PORT:-8011}
     restart: unless-stopped
-
 networks:
   iiot_internal:
     external: true
