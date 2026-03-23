@@ -41,7 +41,7 @@ services:
       - homepage.group=Formazione
       - homepage.name=Ollama UI
       - homepage.icon=sh-ollama
-      - homepage.description=Assistente locale su documenti interni
+      - homepage.description=Assistente Tecnico
       - homepage.href=http://${SYS_IP}:${OLLAMA_UI_PORT:-8011}
     restart: unless-stopped
 networks:
