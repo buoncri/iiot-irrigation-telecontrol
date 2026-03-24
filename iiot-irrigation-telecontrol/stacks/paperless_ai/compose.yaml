@@ -1,0 +1,42 @@
+services:
+  paperless_ai:
+    image: clusterzx/paperless-ai:latest
+    container_name: paperless_ai
+    ports:
+      - ${PAPERLESS_AI_PORT:-8019}:3000
+    environment:
+      - PAPERLESS_AI_PORT=3000
+      - PAPERLESS_API_URL=${PAPERLESS_API_URL:-http://paperless:8000/api}
+      - PAPERLESS_API_TOKEN=${PAPERLESS_API_TOKEN:-}
+      - PAPERLESS_USERNAME=${PAPERLESS_USERNAME:-admin}
+      - AI_PROVIDER=${AI_PROVIDER:-ollama}
+      - OLLAMA_API_URL=${OLLAMA_API_URL:-http://ollama:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:3b}
+      - DISABLE_AUTOMATIC_PROCESSING=${DISABLE_AUTOMATIC_PROCESSING:-yes}
+      - ADD_AI_PROCESSED_TAG=${ADD_AI_PROCESSED_TAG:-no}
+      - AI_PROCESSED_TAG_NAME=${AI_PROCESSED_TAG_NAME:-pilot-ppai-processed}
+      - PROCESS_PREDEFINED_DOCUMENTS=${PROCESS_PREDEFINED_DOCUMENTS:-no}
+      - ACTIVATE_TAGGING=${ACTIVATE_TAGGING:-no}
+      - ACTIVATE_CORRESPONDENTS=${ACTIVATE_CORRESPONDENTS:-no}
+      - ACTIVATE_DOCUMENT_TYPE=${ACTIVATE_DOCUMENT_TYPE:-no}
+      - ACTIVATE_TITLE=${ACTIVATE_TITLE:-no}
+      - ACTIVATE_CUSTOM_FIELDS=${ACTIVATE_CUSTOM_FIELDS:-no}
+      - USE_PROMPT_TAGS=${USE_PROMPT_TAGS:-no}
+      - PROMPT_TAGS=${PROMPT_TAGS:-pilot-ppai}
+      - SCAN_INTERVAL=${SCAN_INTERVAL:-0 0 * * 0}
+      - TZ=${TZ:-Europe/Rome}
+    volumes:
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless_ai/data:/app/data
+    networks:
+      - iiot_internal
+    labels:
+      - homepage.group=Formazione
+      - homepage.name=Paperless-AI
+      - homepage.icon=paperless-ngx
+      - homepage.description=Paperless chat intelligente
+      - homepage.href=http://${SYS_IP}:${PAPERLESS_AI_PORT:-8019}
+    restart: unless-stopped
+
+networks:
+  iiot_internal:
+    external: true

@@ -1,0 +1,28 @@
+services:
+  cheshire-cat-core:
+    image: ghcr.io/cheshire-cat-ai/core:latest
+    container_name: cheshire_cat_core
+    environment:
+      - TZ=${TZ:-Europe/Rome}
+      - PAPERLESS_API_URL=${PAPERLESS_API_URL:-http://paperless:8000/api}
+      - PAPERLESS_API_TOKEN=${PAPERLESS_API_TOKEN:-}
+    ports:
+      - ${CHESHIRE_CAT_PORT:-1865}:80
+      - ${CHESHIRE_CAT_DEBUG_PORT:-5678}:5678
+    volumes:
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/cheshire_cat/static:/app/cat/static
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/cheshire_cat/plugins:/app/cat/plugins
+      - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/cheshire_cat/data:/app/cat/data
+    networks:
+      - iiot_internal
+    labels:
+      - homepage.group=Formazione
+      - homepage.name=Cheshire cat (Stregatto)
+      - homepage.icon=catppuccin
+      - homepage.description=Paperless metadata
+      - homepage.href=http://${SYS_IP}:${CHESHIRE_CAT_PORT:-1865}/admin
+    restart: unless-stopped
+
+networks:
+  iiot_internal:
+    external: true
