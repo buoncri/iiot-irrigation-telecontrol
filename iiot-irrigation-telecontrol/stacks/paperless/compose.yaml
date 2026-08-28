@@ -8,16 +8,17 @@ services:
     ports:
       - 8018:8000
     environment:
-      - PAPERLESS_REDIS=redis://paperless_redis:6379
-      - PAPERLESS_DBHOST=paperless_db
-      - PAPERLESS_DBNAME=${PAPERLESS_DBNAME:-paperless}
-      - PAPERLESS_DBUSER=${PAPERLESS_DBUSER:-paperless}
-      - PAPERLESS_DBPASS=${PAPERLESS_DBPASS:-paperless}
-      - PAPERLESS_TIME_ZONE=${TZ:-Europe/Rome}
-      - PAPERLESS_OCR_LANGUAGE=${PAPERLESS_OCR_LANGUAGE:-ita+eng}
-      - PAPERLESS_URL=${PAPERLESS_URL:-http://${SYS_IP}:8018}
-      - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-admin}
-      - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASSWORD:-admin}
+      PAPERLESS_REDIS: redis://paperless_redis:6379
+      PAPERLESS_DBHOST: paperless_db
+      PAPERLESS_DBNAME: ${PAPERLESS_DBNAME:-paperless}
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+      PAPERLESS_DBUSER: ${PAPERLESS_DBUSER:-paperless}
+      PAPERLESS_DBPASS: ${PAPERLESS_DBPASS:-paperless}
+      PAPERLESS_TIME_ZONE: ${TZ:-Europe/Rome}
+      PAPERLESS_OCR_LANGUAGE: ${PAPERLESS_OCR_LANGUAGE:-ita+eng}
+      PAPERLESS_URL: ${PAPERLESS_URL:-http://${SYS_IP}:8018}
+      PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER:-admin}
+      PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD:-admin}
     volumes:
       - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/data:/usr/src/paperless/data
       - ${APPDATA_DIR:-/opt/iiot-irrigation-telecontrol/appdata}/paperless/media:/usr/src/paperless/media
