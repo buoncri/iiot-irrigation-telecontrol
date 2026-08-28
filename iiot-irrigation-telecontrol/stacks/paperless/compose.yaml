@@ -30,7 +30,7 @@ services:
       - homepage.group=Formazione
       - homepage.name=Paperless-ngx
       - homepage.icon=paperless-ngx
-      - homepage.description=Archivio e OCR documentale
+      - homepage.description=Archivio documentale
       - homepage.href=http://${SYS_IP}:8018
 
   paperless_db:

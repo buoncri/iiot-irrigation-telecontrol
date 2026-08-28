@@ -8,7 +8,7 @@ Repository di orchestrazione per una piattaforma IIoT di telecontrollo impianti 
 
 Questo progetto centralizza e definisce:
 - **Stack applicativi**: configurazioni dichiarative centralizzate.
-- **Utilità di gestione**: interfacce web per orchestrazione autonoma (Dockge, Portainer).
+- **Utilità di gestione**: interfacce web per orchestrazione autonoma (Dockhand, Portainer).
 - **Dati persistenti**: volumi bind separati (`appdata/`) per semplificare backup ed update.
 
 L'obiettivo è fornire una piattaforma edge locale robusta, facilmente ripristinabile e versionata.
@@ -24,7 +24,7 @@ iiot-irrigation-telecontrol/
 ├── .env.global         # File non tracciato: definisce variabili globali (es. SYS_IP, APPDATA_DIR)
 ├── assets/             # Dati statici (es. loghi, immagini di documentazione)
 ├── scripts/            # Strumenti bash di gestione (es. stackctl.sh)
-├── dockge/             # Configurazione per orchestrazione stack Compose
+├── dockhand/           # Configurazione per orchestrazione stack Compose
 ├── stacks/             # Definizioni container logicamente segmentate 
 │   ├── homepage/       # Dashboard principale 
 │   ├── speckle/        # Piattaforma dati 
@@ -53,7 +53,19 @@ chmod +x bootstrap.sh
 ./bootstrap.sh
 ```
 
-Lo script si occuperà di installare Docker (se mancante), configurare l'utente corrente, allocare la cartella `appdata/` isolata dal VCS, e fare il deploy automatico di **Dockge** (porta `5001`). Una volta avviato, la Web UI permetterà di istanziare autonomamente le restanti code applicative (`stacks/*`).
+Lo script si occuperà di installare Docker (se mancante), configurare l'utente corrente, allocare la cartella `appdata/` isolata dal VCS, e fare il deploy automatico di **Dockhand** (porta `3000`). Una volta avviato, la Web UI permetterà di istanziare autonomamente le restanti code applicative (`stacks/*`).
+
+### Nota su SYS_IP e file `.env` degli stack
+
+Le label Homepage (esempio: `homepage.href`) dipendono da `SYS_IP` presente nei file `.env` degli stack.
+Se l'IP host cambia o noti URL incompleti (es. `http://:8011`), riesegui:
+
+```bash
+cd iiot-irrigation-telecontrol
+./bootstrap.sh
+```
+
+Lo script sincronizza in modo idempotente le chiavi globali (inclusa `SYS_IP`) negli `.env` stack esistenti senza sovrascrivere le variabili stack-specifiche.
 
 ## Gestione Centralizzata CLI
 

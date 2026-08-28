@@ -1,0 +1,40 @@
+services:
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
+    restart: unless-stopped
+    ports:
+      - "${DOCKHAND_PORT:-3000}:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/app/data
+      - ${STACKS_DIR:-/opt/stacks}:${STACKS_DIR:-/opt/stacks}
+      - ${STACKS_DIR:-/opt/stacks}/../.env.global:${STACKS_DIR:-/opt/stacks}/../.env.global:ro
+
+      # 👇 CERTIFICATI SNAKEOIL DI DEBIAN (sola lettura)
+      - /etc/ssl/certs/ssl-cert-snakeoil.pem:/certs/dockhand.crt:ro
+      - /etc/ssl/private/ssl-cert-snakeoil.key:/certs/dockhand.key:ro
+
+    environment:
+      # 👇 ABILITA HTTPS NATIVO
+      - HTTPS_MODE=on
+      - HTTPS_CERT_PATH=/certs/dockhand.crt
+      - HTTPS_KEY_PATH=/certs/dockhand.key
+
+      # 👇 PASSA ESPLICITAMENTE LE VARIABILI DEL .env.global
+      - SYS_IP=${SYS_IP}
+      - SYS_DOMAIN=${SYS_DOMAIN}
+      - APPDATA_DIR=${APPDATA_DIR}
+      - MEDIA_DIR=${MEDIA_DIR}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - STACKS_DIR=${STACKS_DIR:-/opt/stacks}
+      - DOCKHAND_ENABLE_CONSOLE=${DOCKHAND_ENABLE_CONSOLE:-true}
+    labels:
+      - "homepage.group=Managers"
+      - "homepage.name=Dockhand"
+      - "homepage.icon=dockhand"
+      - "homepage.href=${DOCKHAND_HOMEPAGE_HREF:-http://${SYS_IP}:3000}"
+      - "homepage.description=Docker Compose Manager"
+
+volumes:
+  dockhand_data:

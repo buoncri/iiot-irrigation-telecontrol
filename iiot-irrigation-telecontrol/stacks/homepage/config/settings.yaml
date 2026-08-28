@@ -38,6 +38,10 @@ tabs:
     icon: channels-dvr
     description: Strumenti per la gestione di contenuti multimediali
 
+  Formazione:
+    icon: stump
+    description: Strumenti per la gestione e il monitoraggio dei sistemi
+
   Managers:
     icon: appdaemon
     description: Strumenti per la gestione e il monitoraggio dei sistemi
@@ -57,7 +61,7 @@ layout:
     columns: 6
     icon: pypi
 
-  Monitors:
+  Managers:
     tab: Applications
     style: row
     columns: 6
@@ -75,11 +79,11 @@ layout:
     columns: 6
     icon: channels-dvr
 
-  Managers:
-    tab: Managers
+  Formazione:
+    tab: Formazione
     style: row
     columns: 6
-    icon: appdaemon
+    icon: stump
 
 # Mostra tutti i container Docker
 docker:

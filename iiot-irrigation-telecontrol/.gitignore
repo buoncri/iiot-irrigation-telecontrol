@@ -26,8 +26,7 @@ tmp/
 containerd/
 
 # Tool state
-portainer/data/
-dockge/data/
+dockhand/data/
 
 # Database and engine artifacts (any depth)
 **/postgres/
