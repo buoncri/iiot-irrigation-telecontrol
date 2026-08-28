@@ -167,6 +167,11 @@ align_env_files() {
     echo "🔗 Allineamento file .env per gli stack..."
     ln -sf "../.env.global" "$PROJECT_DIR/dockhand/.env"
     for stack_dir in "$PROJECT_DIR/stacks"/*/; do
+        # Salta gli stack dismessi/archiviati
+        if [ "$(basename "$stack_dir")" = "_archive" ]; then
+            continue
+        fi
+
         if [ -d "$stack_dir" ]; then
             local stack_env="${stack_dir}.env"
 

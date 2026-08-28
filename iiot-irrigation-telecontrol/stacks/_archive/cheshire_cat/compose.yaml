@@ -22,7 +22,6 @@ services:
       - homepage.description=Paperless metadata
       - homepage.href=http://${SYS_IP}:${CHESHIRE_CAT_PORT:-1865}/admin
     restart: unless-stopped
-
 networks:
   iiot_internal:
     external: true

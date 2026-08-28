@@ -26,7 +26,6 @@ tmp/
 containerd/
 
 # Tool state
-portainer/data/
 dockhand/data/
 
 # Database and engine artifacts (any depth)
