@@ -8,10 +8,10 @@
           abbr: HP
           href: http://{{HOMEPAGE_VAR_SYS_IP}}:3000
           description: Dashboard servizi locali
-    - Dockge:
-        - icon: dockge.png
-          abbr: DG
-          href: http://{{HOMEPAGE_VAR_SYS_IP}}:5001
+    - Dockhand:
+        - icon: dockhand.png
+          abbr: DH
+          href: http://{{HOMEPAGE_VAR_SYS_IP}}:3000
           description: Gestione stack compose
     - Portainer:
         - icon: portainer.png
